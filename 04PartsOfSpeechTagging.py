@@ -22,6 +22,7 @@ VERB	verb	is, say, told, given, playing, would
 .	punctuation marks	. , ; !
 //////////////////////////////////////////////
 link:https://pythonprogramming.net/natural-language-toolkit-nltk-part-speech-tagging/
+POS TAG LIST:
 X	other	ersatz, esprit, dunno, gr8, univeristy
 CC	coordinating conjunction
 CD	cardinal digit
@@ -60,9 +61,10 @@ WP$	possessive wh-pronoun	whose
 WRB	wh-abverb	where, when
 '''
 import nltk
-from nltk.corpus import state_union
-from nltk.tokenize import PunktSentenceTokenizer
-from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.tokenize import sent_tokenize, word_tokenize #word & sent tokenizer
+from nltk.corpus import brown
+#from nltk.tokenize import PunktSentenceTokenizer
+
 '''
 PunktSentenceTokenizer is an unspervised ML sentece tokenizer
 It's pretained, but we can retrain it
@@ -70,9 +72,43 @@ It's pretained, but we can retrain it
 
 example_text=open('HP.txt','r').read()
 #print(sample_text)
+##################################### 01 Using a Tagger ####################
 #s=sent_tokenize(example_text)
 #print(s)
 wo=word_tokenize(example_text)
 #print(wo)
-tagged_words=nltk.pos_tag(wo)
-print(tagged_words)
+tagged_words=nltk.pos_tag(wo) #A part-of-speech tagger, or POS-tagger, processes a sequence of words, and attaches a part of speech tag to each word 
+#print(tagged_words)
+
+for i in tagged_words:
+    print(i[0],"---",i[1])
+##Getting help or hint for each taggs 
+    '''
+    NLTK provides documentation for each tag, which can be queried using the tag
+    '''
+nltk.help.upenn_tagset('RB')
+
+##################################### 02 Tagged Corpora ######################################
+
+##2.1   Representing Tagged Tokens
+'''We can construct a list of tagged tokens directly from a string.
+ The first step is to tokenize the string to access the individual word/tag strings,
+ and then to convert each of these into a tuple (using str2tuple()).
+ [mime note:This can also be used to create customized tagg list ] 
+'''
+bb='Happy/GoodMood Sad/BadMood VeryHappy/ExteremelyGoodMood  VerySad/ExtremelyBadMood'
+print("\n Getting the tags directly from string",[nltk.tag.str2tuple(t) for t in bb.split()])
+
+
+##2.2   Reading Tagged Corpora 
+
+'''
+Several of the corpora included with NLTK have been tagged for their part-of-speech.
+Tagged corpora for several other languages are distributed with NLTK, including Chinese, Hindi etc
+'''
+print(nltk.corpus.brown.tagged_words())
+print(nltk.corpus.indian.tagged_words(tagset='Bangla'))
+
+
+##2.3   A Universal Part-of-Speech Tagset
+print("Printing ",brown.tagged_words(categories='news', tagset='universal'))
