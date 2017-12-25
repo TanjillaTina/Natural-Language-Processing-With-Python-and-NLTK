@@ -78,6 +78,7 @@ def process_content():
            words=nltk.word_tokenize(i)
            tagged=nltk.pos_tag(words)
            # print(tagged)
+           #MyGramr= r"Chunk:: {<RB.?>*<VB.?>*<NNP><NN>?}"
            MyGramr= "NP: {<DT>?<JJ>*<NN>}"
            MyParser=nltk.RegexpParser(MyGramr)
            foundd=MyParser.parse(tagged)
